@@ -63,6 +63,10 @@ Run `... generate --help` for all flags (`--size`, `--quality`, `--image` refs, 
 python3 -m unittest discover -s tests -v
 ```
 
+## License
+
+[MIT](LICENSE)
+
 ## Credits
 
 Patterns studied from [JunSeo99/claude-skill-codex-imagegen](https://github.com/JunSeo99/claude-skill-codex-imagegen), [yazelin/codex-imagegen-skill](https://github.com/yazelin/codex-imagegen-skill), [KingGyuSuh/codex-image-in-cc](https://github.com/KingGyuSuh/codex-image-in-cc).
