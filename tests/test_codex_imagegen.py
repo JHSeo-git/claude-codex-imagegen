@@ -173,6 +173,20 @@ class TestRollout(unittest.TestCase):
             self.assertIsNone(ci.find_rollout(Path(td) / "sessions", "zzz999"))
 
 
+class TestSizeMatch(unittest.TestCase):
+    def test_parse_size(self):
+        self.assertEqual(ci.parse_size("1024x1024"), (1024, 1024))
+        self.assertIsNone(ci.parse_size("auto"))
+        self.assertIsNone(ci.parse_size(None))
+
+    def test_match_and_mismatch(self):
+        self.assertTrue(ci.size_matches("1024x1024", (1024, 1024)))
+        self.assertFalse(ci.size_matches("1024x1024", (1254, 1254)))
+        self.assertTrue(ci.size_matches("auto", (1254, 1254)))
+        self.assertTrue(ci.size_matches(None, (1254, 1254)))
+        self.assertTrue(ci.size_matches("1024x1024", None))
+
+
 class TestGuideCommand(unittest.TestCase):
     def test_guide_prints_skill(self):
         with tempfile.TemporaryDirectory() as td, \

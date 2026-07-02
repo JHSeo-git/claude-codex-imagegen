@@ -34,13 +34,13 @@ python3 <skill-dir>/scripts/codex_imagegen.py <command> ...
    python3 <skill-dir>/scripts/codex_imagegen.py generate "<prompt>" \
      -o <path>.png [--size 1024x1024] [--quality low|medium|high|auto] [-i ref.png] [--json]
    ```
-   - Success prints `SAVED: <absolute path>`.
+   - Success prints `SAVED: <absolute path>` plus the actual pixel dimensions — check them against the requested size before the visual step; a `WARN:` line appears on mismatch with the exact resize command to run.
    - Long/multiline prompt → write it to a temp file, pass `--prompt-file` (avoids shell quoting).
    - Editing an existing image → pass it with `-i` and phrase "change only X; keep everything else identical".
    - Batch → one `generate` call per asset, sequentially.
    - Preview the exact codex command without spending quota: `--dry-run`.
 
-5. **Verify visually**: Read the saved PNG with the Read tool and compare against the user's request. Drift → regenerate with ONE targeted change, keeping the rest of the prompt identical. Confirm final size with `--size` if exact dimensions matter (model adherence is loose).
+5. **Verify visually**: Read the saved PNG with the Read tool and compare against the user's request. Drift → regenerate with ONE targeted change, keeping the rest of the prompt identical. Size adherence is loose even with `--size` (e.g. 1254x1254 for a 1024x1024 request) — when exact pixels matter, do NOT regenerate; downscale locally: `sips -z <H> <W> <path>` (macOS) or `magick <path> -resize <W>x<H>! <path>`.
 
 ## Quick reference
 
@@ -54,8 +54,10 @@ python3 <skill-dir>/scripts/codex_imagegen.py <command> ...
 |---|---|
 | `check` FAIL codex login | User runs `! codex login`, then re-run `check` |
 | `command not found: codex` | `npm install -g @openai/codex` |
+| Exit 3 with `Operation not permitted` / app-server init error | The *caller's* shell sandbox is blocking codex's network — rerun the same command outside the restricted sandbox (unrelated to codex's own `--sandbox` flag) |
 | Exit 3 (codex failed/timeout) | Retry with `--timeout 900`; simplify the prompt |
 | Exit 4 (no image recovered) | Re-run with `--verbose` and inspect codex output |
+| Output dimensions ≠ `--size` (WARN line printed) | Downscale locally (`sips` / ImageMagick, exact command in the WARN); regenerating won't guarantee adherence |
 | Garbled in-image text | Wrap exact text in double quotes, add "no duplicate text", `--quality high` |
 
 ## Notes

@@ -168,6 +168,19 @@ def extract_rollout_image(jsonl_path):
         return None
 
 
+def parse_size(size):
+    match = re.match(r"^(\d+)x(\d+)$", size or "")
+    return (int(match.group(1)), int(match.group(2))) if match else None
+
+
+def size_matches(size, dims):
+    """gpt-image-2 size adherence is loose; True when no warning is warranted."""
+    want = parse_size(size)
+    if want is None or dims is None:
+        return True
+    return tuple(dims) == want
+
+
 def png_dimensions(path):
     try:
         with open(str(path), "rb") as fh:
@@ -415,15 +428,23 @@ def cmd_generate(args):
         return 4
 
     dims = png_dimensions(path)
+    size_ok = size_matches(args.size, dims)
     if args.json:
         print(json.dumps({"ok": True, "path": str(path), "how": how,
                           "width": dims[0] if dims else None,
                           "height": dims[1] if dims else None,
+                          "size_ok": size_ok,
                           "seconds": elapsed}))
     else:
         print("SAVED: {}".format(path))
         print("({}, {}{} in {}s)".format(how, "{}x{} ".format(*dims) if dims else "",
                                          "{} bytes".format(path.stat().st_size), elapsed))
+    if not size_ok:
+        want = parse_size(args.size)
+        err("WARN: requested {} but got {}x{} — regenerating will not guarantee adherence; "
+            "downscale locally instead, e.g. `sips -z {} {} {}` (macOS) or "
+            "ImageMagick `magick {} -resize {}! {}`.".format(
+                args.size, dims[0], dims[1], want[1], want[0], path, path, args.size, path))
     return 0
 
 
