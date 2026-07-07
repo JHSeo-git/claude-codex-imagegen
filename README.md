@@ -51,6 +51,12 @@ python3 skills/codex-imagegen/scripts/codex_imagegen.py generate \
 
 Run `... generate --help` for all flags (`--size`, `--quality`, `--image` refs, `--timeout`, `--dry-run`, `--json`).
 
+## Examples
+
+Reusable style recipes with worked prompts and preview images live in [`examples/`](examples/):
+
+- [`pastel-anime-slides`](examples/pastel-anime-slides/) — clean flat anime background art for presentation decks: shared style/constraints blocks, text-safe negative space, five worked prompts.
+
 ## Notes
 
 - Image generation consumes ChatGPT subscription quota noticeably faster than text turns; keep it to personal/dev use, not production backends.
