@@ -1,5 +1,7 @@
 # claude-codex-imagegen
 
+[![skills.sh](https://skills.sh/b/JHSeo-git/claude-codex-imagegen)](https://skills.sh/JHSeo-git/claude-codex-imagegen)
+
 Generate images from Claude Code by driving the **Codex CLI's built-in `imagegen` skill** (`$imagegen`, gpt-image-2) — using your ChatGPT subscription instead of per-image API billing.
 
 ```
