@@ -27,7 +27,11 @@ Claude Code ──(this skill)──▶ codex exec '$imagegen …' ──▶ PNG
 
 ## Install
 
-Copy the skill into your Claude Code skills directory (project or global):
+```sh
+npx skills add JHSeo-git/claude-codex-imagegen
+```
+
+Or manually — copy the skill into your Claude Code skills directory (project or global):
 
 ```bash
 # global
