@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Initialize OpenWiki repository wiki (`openwiki/`: quickstart, imagegen CLI, skill workflow) plus root `AGENTS.md`/`CLAUDE.md` pointers.
 - README: recommend `npx skills add JHSeo-git/claude-codex-imagegen` as the primary install method; manual `cp` kept as fallback.
 - Add `examples/pastel-anime-slides`: reusable style guide (shared style/constraints prompt blocks, text-safe negative space rules, five worked prompts) with preview images.
 - Add MIT license.
